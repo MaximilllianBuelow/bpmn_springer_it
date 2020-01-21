@@ -1,4 +1,4 @@
-/*
- * Respository for: WIB Auswahl und Anpassung von IT-Diensten
- * Team: Anna-Maria Schade, Amadeus Wiemann, Maximillian Bülow, Daniel Clausen, Felix Zdrenka
- */
+# Einführung agiler Methoden im Bereich des Projektmanagements
+
+* Respository for: WIB Auswahl und Anpassung von IT-Diensten
+* Team: Anna-Maria Schade, Amadeus Wiemann, Maximillian Bülow, Daniel Clausen, Felix Zdrenka
