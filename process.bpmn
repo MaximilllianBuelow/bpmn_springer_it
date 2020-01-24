@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_0etspnh" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.5.0">
+  <bpmn:collaboration id="Collaboration_1ye4orr">
+    <bpmn:participant id="Participant_0cs51ok" name="User in Scrum/Kanban Projekt hinzufügen" processRef="Process_0ampqg8" />
+    <bpmn:participant id="Participant_1d7v8js" name="Projektleiter" />
+    <bpmn:participant id="Participant_1f4gbxa" name="Mitarbeiter (Neuuser)" />
+    <bpmn:messageFlow id="MessageFlow_1t8fg5x" sourceRef="Task_16dudzt" targetRef="Participant_1d7v8js" />
+    <bpmn:messageFlow id="MessageFlow_0f88vux" sourceRef="Participant_1d7v8js" targetRef="SendTask_1fzfve7" />
+    <bpmn:messageFlow id="MessageFlow_0lo2fm6" sourceRef="Participant_1f4gbxa" targetRef="StartEvent_1" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_0ampqg8" isExecutable="true">
+    <bpmn:endEvent id="EndEvent_1euvwjk" name="User integriert">
+      <bpmn:incoming>SequenceFlow_07lrxqp</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0dkkysx" sourceRef="StartEvent_1" targetRef="Task_1ro5ct2" />
+    <bpmn:sequenceFlow id="SequenceFlow_1c2n8g5" sourceRef="Task_1ro5ct2" targetRef="Task_1e21hbs" />
+    <bpmn:sequenceFlow id="SequenceFlow_0ryi8kw" sourceRef="Task_1e21hbs" targetRef="Task_1sgcijb" />
+    <bpmn:sequenceFlow id="SequenceFlow_18qskj1" sourceRef="Task_1sgcijb" targetRef="Task_16dudzt" />
+    <bpmn:sequenceFlow id="SequenceFlow_12xrjuz" sourceRef="Task_16dudzt" targetRef="SendTask_1fzfve7" />
+    <bpmn:sequenceFlow id="SequenceFlow_007gdlw" sourceRef="SendTask_1fzfve7" targetRef="Task_1ilyjrg" />
+    <bpmn:sequenceFlow id="SequenceFlow_16ncx3h" sourceRef="Task_1ilyjrg" targetRef="Task_05hvzh3" />
+    <bpmn:sequenceFlow id="SequenceFlow_07lrxqp" sourceRef="Task_05hvzh3" targetRef="EndEvent_1euvwjk" />
+    <bpmn:startEvent id="StartEvent_1" name="Nutzeranfrage eingegangen">
+      <bpmn:outgoing>SequenceFlow_0dkkysx</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_11sz1km" messageRef="Message_145jzeh" />
+    </bpmn:startEvent>
+    <bpmn:userTask id="Task_1ro5ct2" name="Nutzeranfrage annehmen" camunda:assignee="demo">
+      <bpmn:incoming>SequenceFlow_0dkkysx</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1c2n8g5</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_1e21hbs" name="Profil für Nutzer erstellen" camunda:assignee="demo">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="projektname" label="Projektname" type="string" defaultValue="bitte eingeben" />
+          <camunda:formField id="confluence" label="Confluence" type="boolean" defaultValue="false" />
+          <camunda:formField id="zugehoerigkeit" label="Zugehörigkeit" type="string" defaultValue="bitte eingeben" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1c2n8g5</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0ryi8kw</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:businessRuleTask id="Task_1sgcijb" name="Anforderungen prüfen" camunda:decisionRef="Decision_1q4me6w">
+      <bpmn:incoming>SequenceFlow_0ryi8kw</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_18qskj1</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:sendTask id="Task_16dudzt" name="Profilerstellung prüfen lassen" camunda:class="/Springer/src/main/java/com/camunda/demo/Springer/sendTask.java">
+      <bpmn:incoming>SequenceFlow_18qskj1</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_12xrjuz</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:receiveTask id="SendTask_1fzfve7" name="Profileigen-schaften genehmigen" messageRef="Message_145jzeh">
+      <bpmn:incoming>SequenceFlow_12xrjuz</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_007gdlw</bpmn:outgoing>
+    </bpmn:receiveTask>
+    <bpmn:userTask id="Task_1ilyjrg" name="Rollen an User vergeben">
+      <bpmn:incoming>SequenceFlow_007gdlw</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_16ncx3h</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Task_05hvzh3" name="User über Rechte informieren" camunda:class="/Springer/src/main/java/com/camunda/demo/Springer/notifyUser.java">
+      <bpmn:incoming>SequenceFlow_16ncx3h</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_07lrxqp</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmn:message id="Message_145jzeh" name="genehmigung" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1ye4orr">
+      <bpmndi:BPMNShape id="Participant_0cs51ok_di" bpmnElement="Participant_0cs51ok" isHorizontal="true">
+        <dc:Bounds x="160" y="150" width="1458" height="240" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0dkkysx_di" bpmnElement="SequenceFlow_0dkkysx">
+        <di:waypoint x="247" y="260" />
+        <di:waypoint x="299" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1c2n8g5_di" bpmnElement="SequenceFlow_1c2n8g5">
+        <di:waypoint x="399" y="260" />
+        <di:waypoint x="489" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0ryi8kw_di" bpmnElement="SequenceFlow_0ryi8kw">
+        <di:waypoint x="589" y="260" />
+        <di:waypoint x="669" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_18qskj1_di" bpmnElement="SequenceFlow_18qskj1">
+        <di:waypoint x="769" y="260" />
+        <di:waypoint x="849" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Participant_18xi76z_di" bpmnElement="Participant_1d7v8js" isHorizontal="true">
+        <dc:Bounds x="811" y="50" width="310" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="MessageFlow_1t8fg5x_di" bpmnElement="MessageFlow_1t8fg5x">
+        <di:waypoint x="883" y="220" />
+        <di:waypoint x="883" y="110" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="MessageFlow_0f88vux_di" bpmnElement="MessageFlow_0f88vux">
+        <di:waypoint x="1050" y="110" />
+        <di:waypoint x="1050" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Participant_1f4gbxa_di" bpmnElement="Participant_1f4gbxa" isHorizontal="true">
+        <dc:Bounds x="160" y="50" width="300" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="MessageFlow_0lo2fm6_di" bpmnElement="MessageFlow_0lo2fm6">
+        <di:waypoint x="229" y="110" />
+        <di:waypoint x="229" y="242" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_12xrjuz_di" bpmnElement="SequenceFlow_12xrjuz">
+        <di:waypoint x="949" y="260" />
+        <di:waypoint x="1000" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_007gdlw_di" bpmnElement="SequenceFlow_007gdlw">
+        <di:waypoint x="1100" y="260" />
+        <di:waypoint x="1160" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_16ncx3h_di" bpmnElement="SequenceFlow_16ncx3h">
+        <di:waypoint x="1260" y="260" />
+        <di:waypoint x="1320" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_1euvwjk_di" bpmnElement="EndEvent_1euvwjk">
+        <dc:Bounds x="1482" y="242" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1465" y="285" width="71" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_07lrxqp_di" bpmnElement="SequenceFlow_07lrxqp">
+        <di:waypoint x="1420" y="260" />
+        <di:waypoint x="1482" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="StartEvent_1m7v11u_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="211" y="242" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="194" y="285" width="71" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_1mnmp3s_di" bpmnElement="Task_1ro5ct2">
+        <dc:Bounds x="299" y="220" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_1ebygp8_di" bpmnElement="Task_1e21hbs">
+        <dc:Bounds x="489" y="220" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BusinessRuleTask_117t4eo_di" bpmnElement="Task_1sgcijb">
+        <dc:Bounds x="669" y="220" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SendTask_172gg3b_di" bpmnElement="Task_16dudzt">
+        <dc:Bounds x="849" y="220" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ReceiveTask_06srjfg_di" bpmnElement="SendTask_1fzfve7">
+        <dc:Bounds x="1000" y="220" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_12ysu12_di" bpmnElement="Task_1ilyjrg">
+        <dc:Bounds x="1160" y="220" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1ynlych_di" bpmnElement="Task_05hvzh3">
+        <dc:Bounds x="1320" y="220" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

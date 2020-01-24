@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/1.0" id="Definitions_1dx3ac4" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="3.5.0">
+  <decision id="Decision_1q4me6w" name="Anforderungen">
+    <extensionElements>
+      <biodi:bounds x="150" y="150" width="180" height="80" />
+    </extensionElements>
+    <decisionTable id="decisionTable_1" hitPolicy="FIRST">
+      <input id="InputClause_0iyhmkb" label="Projektname">
+        <inputExpression id="LiteralExpression_14491lr" typeRef="string">
+          <text>projektname</text>
+        </inputExpression>
+        <inputValues id="UnaryTests_1ql81ko">
+          <text>"AS-Ideas","Technik","Network","Collaboration-Services","Support","Spring","Cloud&amp;Data","Administration"</text>
+        </inputValues>
+      </input>
+      <input id="InputClause_0xjp4q9" label="Confluence">
+        <inputExpression id="LiteralExpression_07n70v6" typeRef="boolean">
+          <text>confluence</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_07ucc0z" label="Zugehoerigkeit">
+        <inputExpression id="LiteralExpression_0tmen3t" typeRef="string">
+          <text>zugehoerigkeit</text>
+        </inputExpression>
+        <inputValues id="UnaryTests_01fv1rx">
+          <text>"intern","extern"</text>
+        </inputValues>
+      </input>
+      <output id="output_1" label="Gruppen" name="Gruppen" typeRef="string">
+        <outputValues id="UnaryTests_10hdgqv">
+          <text>"Jira-Users und Confluence-Users","Jira-Users","Jira-Externals","Jira-Externals und Conflusence-Users","Jira-Developers","Jira-Developers und Confluence-Users","Jira-Administrators","Jira-Externals","Jira-Users"</text>
+        </outputValues>
+      </output>
+      <rule id="DecisionRule_0ow3b8i">
+        <inputEntry id="UnaryTests_1gnrjgt">
+          <text>"Collaboration-Services","Support","Spring","Cloud&amp;Data"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0yqmbit">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0j1qqh7">
+          <text>"intern"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0tj2tst">
+          <text>"Jira-Users"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1063e7u">
+        <inputEntry id="UnaryTests_104br5w">
+          <text>"Collaboration-Services","Support","Spring","Cloud&amp;Data"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0q88sya">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_18iwhsv">
+          <text>"intern"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1eqwlxm">
+          <text>"Jira-Users und Confluence-Users"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1ktpamo">
+        <inputEntry id="UnaryTests_1iu8gux">
+          <text>"Collaboration-Services","Support","Spring","Cloud&amp;Data"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0a5ir3a">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_17zz0z2">
+          <text>"extern"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0szloik">
+          <text>"Jira-Externals"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1qbld1x">
+        <inputEntry id="UnaryTests_1x1mgdd">
+          <text>"Collaboration-Services","Support","Spring","Cloud&amp;Data"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_19uie18">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_01pdz7a">
+          <text>"extern"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1t7d5o4">
+          <text>"Jira-Externals und Conflusence-Users"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1r80cdp">
+        <inputEntry id="UnaryTests_14zu240">
+          <text>"AS-Ideas","Technik","Network"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0pu0mri">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0lfzftq">
+          <text>"intern"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0uoj2cj">
+          <text>"Jira-Developers"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_17f53l7">
+        <inputEntry id="UnaryTests_0ei5ytc">
+          <text>"AS-Ideas","Technik","Network"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_16rio4n">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1i32t5s">
+          <text>"extern"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_05fvzl3">
+          <text>"Jira-Developers und Confluence-Users"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_138qp7q">
+        <inputEntry id="UnaryTests_1ihycj6">
+          <text>"Administration"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_041mk21">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ygu4yc">
+          <text>"intern"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1cni88m">
+          <text>"Jira-Administrators"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_18ylxgh">
+        <inputEntry id="UnaryTests_033rfh8">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_13kivrr">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0t78jlf">
+          <text>"extern"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0e1ai2u">
+          <text>"Jira-Externals"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1kjre3v">
+        <inputEntry id="UnaryTests_0eompu0">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1fx9147">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1no88i2">
+          <text>"intern"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0e5o59d">
+          <text>"Jira-Users"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0dk5a6m">
+        <inputEntry id="UnaryTests_15lp016">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1taramt">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_18fk3a9">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1uy59ew">
+          <text></text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+</definitions>
